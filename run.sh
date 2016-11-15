@@ -1,18 +1,16 @@
 #!/bin/bash
-g++ -O3 -Wall -march=native -Ofast SAT-alumnes.cpp -o bin.exe
+g++ -O3 -Wall --std=c++11 -march=native -Ofast SAT-alumnes.cpp -Wno-sign-compare -o bin.exe
 
 iters=${1:-5}
+rm resultat.txt
 cd data
 for f in *; do
 	if [ $iters -ge 1 ]; then
-		echo $f
-		echo "========================"
-		/usr/bin/time --quiet -f "Time: %e" ../bin.exe < $f | tee ../resultat.txt
-		echo ""
+		echo -n $f "" | tee -ai ../resultat.txt
+		../bin.exe < $f | tee -ai ../resultat.txt
 	fi
 
 	iters=$((iters-1))
 
-  
 done
 cd ..
