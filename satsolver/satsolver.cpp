@@ -83,7 +83,10 @@ bool propagateGivesConflict ( ) {
       	if (val == TRUE) someLitTrue = true;
       	else if (val == UNDEF){ ++numUndefs; lastLitUndef = (*vec[i])[k]; }
       }
-      if (not someLitTrue and numUndefs == 0) return true; // conflict! all lits false
+      if (not someLitTrue and numUndefs == 0){
+        ++occurrences[abs(lit)]; //avoid devil-choosed variable that usually provoque conflicts
+        return true; // conflict! all lits false
+      }
       else if (not someLitTrue and numUndefs == 1) setLiteralToTrue(lastLitUndef);
     }
     ++indexOfNextLitToPropagate;
